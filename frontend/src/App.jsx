@@ -1,6 +1,22 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-import Dashboard from "./pages/worker/Dashboard";
+import MainLayout from "./layouts/MainLayout";
+
+// Public pages
+import Home from "./pages/public/Home";
+import ExploreIssues from "./pages/public/ExploreIssues";
+
+// Citizen pages
+import ReportProblem from "./pages/citizen/ReportProblem";
+import CitizenDashboard from "./pages/citizen/Dashboard";
+
+// Worker pages
+import WorkerDashboard from "./pages/worker/Dashboard";
 import MyTasks from "./pages/worker/MyTasks";
 import TaskDetails from "./pages/worker/TaskDetails";
 import TaskLocation from "./pages/worker/TaskLocation";
@@ -10,27 +26,52 @@ import CompletedTasks from "./pages/worker/CompletedTasks";
 import Notifications from "./pages/worker/Notifications";
 import Profile from "./pages/worker/Profile";
 
-function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50">
-      <h1 className="text-2xl font-bold text-slate-800">
-        EcoCitizen Home
-      </h1>
-    </div>
-  );
-}
-
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Home */}
-        <Route path="/" element={<Home />} />
 
-        {/* Worker Routes */}
+        {/* Public Home */}
+        <Route
+          path="/"
+          element={
+            <MainLayout>
+              <Home />
+            </MainLayout>
+          }
+        />
+
+        {/* Explore Issues */}
+        <Route
+          path="/explore"
+          element={
+            <MainLayout>
+              <ExploreIssues />
+            </MainLayout>
+          }
+        />
+
+        {/* Citizen Report */}
+        <Route
+          path="/citizen/report"
+          element={
+            <MainLayout>
+              <ReportProblem />
+            </MainLayout>
+          }
+        />
+
+        {/* Citizen Dashboard */}
+        <Route
+          path="/citizen/dashboard"
+          element={<CitizenDashboard />}
+        />
+
+        {/* ================= Worker ================= */}
+
         <Route
           path="/worker/dashboard"
-          element={<Dashboard />}
+          element={<WorkerDashboard />}
         />
 
         <Route
@@ -72,6 +113,13 @@ function App() {
           path="/worker/profile"
           element={<Profile />}
         />
+
+        {/* Unknown URL */}
+        <Route
+          path="*"
+          element={<Navigate to="/" replace />}
+        />
+
       </Routes>
     </BrowserRouter>
   );
