@@ -9,6 +9,15 @@ import Map from "./pages/officer/Map";
 import Notifications from "./pages/officer/Notifications";
 import OverdueComplaints from "./pages/officer/OverdueComplaints";
 import Profile from "./pages/officer/Profile";
+import Dashboard from "./pages/worker/Dashboard";
+import MyTasks from "./pages/worker/MyTasks";
+import TaskDetails from "./pages/worker/TaskDetails";
+import TaskLocation from "./pages/worker/TaskLocation";
+import WorkProgress from "./pages/worker/WorkProgress";
+import UploadEvidence from "./pages/worker/UploadEvidence";
+import CompletedTasks from "./pages/worker/CompletedTasks";
+import Notifications from "./pages/worker/Notifications";
+import Profile from "./pages/worker/Profile";
 
 function Home() {
   return <h1>EcoCitizen Home</h1>;
@@ -18,6 +27,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* Home */}
         <Route path="/" element={<Home />} />
 
         <Route path="/officer/dashboard" element={<Dashboard />} />
@@ -29,6 +40,52 @@ function App() {
         <Route path="/officer/notifications" element={<Notifications />} />
         <Route path="/officer/overdue" element={<OverdueComplaints />} />
         <Route path="/officer/profile" element={<Profile />} />
+        {/* Worker */}
+        <Route
+          path="/worker/dashboard"
+          element={<Dashboard />}
+        />
+
+        <Route
+          path="/worker/tasks"
+          element={<MyTasks />}
+        />
+
+        <Route
+          path="/worker/tasks/:id"
+          element={<TaskDetails />}
+        />
+
+        <Route
+          path="/worker/location/:id"
+          element={<TaskLocation />}
+        />
+
+        <Route
+          path="/worker/progress/:id"
+          element={<WorkProgress />}
+        />
+
+        <Route
+          path="/worker/upload-evidence/:id"
+          element={<UploadEvidence />}
+        />
+
+        <Route
+          path="/worker/completed-tasks"
+          element={<CompletedTasks />}
+        />
+
+        <Route
+          path="/worker/notifications"
+          element={<Notifications />}
+        />
+
+        <Route
+          path="/worker/profile"
+          element={<Profile />}
+        />
+
       </Routes>
     </BrowserRouter>
   );
