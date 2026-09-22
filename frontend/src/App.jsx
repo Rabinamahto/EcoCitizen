@@ -11,18 +11,23 @@ import Notifications from "./pages/worker/Notifications";
 import Profile from "./pages/worker/Profile";
 
 function Home() {
-  return <h1>EcoCitizen Home</h1>;
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <h1 className="text-2xl font-bold text-slate-800">
+        EcoCitizen Home
+      </h1>
+    </div>
+  );
 }
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* Home */}
         <Route path="/" element={<Home />} />
 
-        {/* Worker */}
+        {/* Worker Routes */}
         <Route
           path="/worker/dashboard"
           element={<Dashboard />}
@@ -67,7 +72,6 @@ function App() {
           path="/worker/profile"
           element={<Profile />}
         />
-
       </Routes>
     </BrowserRouter>
   );
