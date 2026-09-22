@@ -1,373 +1,354 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const complaints = [
   {
     id: "EC1024",
-    title: "Garbage Accumulation",
-    location: "Main Market, Ward 12",
-    category: "Waste Management",
+    title: "Garbage accumulation near residential area",
+    category: "Garbage",
+    citizen: "Rahul Kumar",
+    location: "Shivaji Nagar",
     priority: "High",
     status: "Pending",
-    date: "18 Sep 2026",
+    time: "15 min ago",
   },
   {
     id: "EC1023",
-    title: "Road Damage",
-    location: "Station Road, Ward 08",
-    category: "Road & Infrastructure",
+    title: "Blocked drainage causing water overflow",
+    category: "Drainage",
+    citizen: "Amit Singh",
+    location: "Kothrud",
     priority: "Medium",
     status: "In Progress",
-    date: "18 Sep 2026",
+    time: "42 min ago",
   },
   {
     id: "EC1022",
-    title: "Water Leakage",
-    location: "Gandhi Nagar, Ward 15",
-    category: "Water Supply",
+    title: "Street light not working",
+    category: "Street Light",
+    citizen: "Vikash Yadav",
+    location: "Baner",
     priority: "Low",
     status: "Resolved",
-    date: "17 Sep 2026",
+    time: "1 hour ago",
   },
   {
     id: "EC1021",
-    title: "Street Light Failure",
-    location: "College Road, Ward 06",
-    category: "Public Infrastructure",
+    title: "Garbage collection missed",
+    category: "Garbage",
+    citizen: "Neha Kumari",
+    location: "Aundh",
     priority: "Medium",
-    status: "In Progress",
-    date: "17 Sep 2026",
+    status: "Pending",
+    time: "2 hours ago",
   },
   {
     id: "EC1020",
-    title: "Illegal Dumping",
-    location: "Civil Lines, Ward 03",
-    category: "Waste Management",
+    title: "Water supply interruption",
+    category: "Water",
+    citizen: "Priya Sharma",
+    location: "Wakad",
     priority: "High",
-    status: "Pending",
-    date: "16 Sep 2026",
+    status: "In Progress",
+    time: "3 hours ago",
   },
   {
     id: "EC1019",
-    title: "Drainage Problem",
-    location: "Green Park, Ward 18",
-    category: "Water Supply",
+    title: "Overflowing public dustbin",
+    category: "Garbage",
+    citizen: "Rohit Verma",
+    location: "Viman Nagar",
     priority: "Medium",
-    status: "Resolved",
-    date: "16 Sep 2026",
+    status: "Pending",
+    time: "4 hours ago",
   },
 ];
 
-function Complaints() {
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
+const filters = ["All", "Pending", "In Progress", "Resolved"];
 
-  const filteredComplaints = complaints.filter((complaint) => {
-    const matchesSearch =
-      complaint.id.toLowerCase().includes(search.toLowerCase()) ||
-      complaint.title.toLowerCase().includes(search.toLowerCase()) ||
-      complaint.location.toLowerCase().includes(search.toLowerCase()) ||
-      complaint.category.toLowerCase().includes(search.toLowerCase());
-
-    const matchesStatus =
-      statusFilter === "All" || complaint.status === statusFilter;
-
-    return matchesSearch && matchesStatus;
-  });
+function StatusBadge({ status }) {
+  const styles = {
+    Pending: "bg-orange-50 text-orange-600",
+    "In Progress": "bg-blue-50 text-blue-600",
+    Resolved: "bg-emerald-50 text-emerald-600",
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <aside className="fixed left-0 top-0 hidden h-screen w-64 border-r border-slate-200 bg-white lg:block">
-        <div className="border-b border-slate-200 p-6">
-          <h1 className="text-2xl font-bold text-emerald-700">
-            EcoCitizen
-          </h1>
+    <span
+      className={`rounded-full px-3 py-1 text-[11px] font-bold ${styles[status]}`}
+    >
+      {status}
+    </span>
+  );
+}
 
-          <p className="mt-1 text-sm text-slate-500">
-            Officer Panel
-          </p>
-        </div>
+function PriorityBadge({ priority }) {
+  const styles = {
+    High: "bg-red-50 text-red-600",
+    Medium: "bg-amber-50 text-amber-600",
+    Low: "bg-slate-100 text-slate-500",
+  };
 
-        <nav className="p-4">
+  return (
+    <span
+      className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${styles[priority]}`}
+    >
+      {priority}
+    </span>
+  );
+}
+
+function CategoryIcon({ category }) {
+  const icons = {
+    Garbage: "🗑️",
+    Drainage: "💧",
+    "Street Light": "💡",
+    Water: "🚰",
+  };
+
+  return (
+    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-lg">
+      {icons[category]}
+    </div>
+  );
+}
+
+function Complaints() {
+  return (
+    <div className="min-h-screen bg-[#f6f8f7] px-4 py-4 text-slate-800 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <section className="relative overflow-hidden rounded-[28px] bg-slate-950 p-6 shadow-xl sm:p-8">
+          <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl" />
+          <div className="absolute -bottom-28 left-1/3 h-64 w-64 rounded-full bg-teal-400/10 blur-3xl" />
+
+          <div className="relative">
+            <div className="flex items-center justify-between">
+              <Link
+                to="/officer/dashboard"
+                className="flex items-center gap-3"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500 text-xl shadow-lg shadow-emerald-500/20">
+                  🌿
+                </div>
+
+                <div>
+                  <p className="text-base font-black text-white">
+                    EcoCitizen
+                  </p>
+                  <p className="text-xs text-slate-400">
+                    Officer Portal
+                  </p>
+                </div>
+              </Link>
+
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/officer/notifications"
+                  className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-lg transition hover:bg-white/10"
+                >
+                  🔔
+                  <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-red-400" />
+                </Link>
+
+                <Link
+                  to="/officer/profile"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 text-xs font-black text-white"
+                >
+                  SK
+                </Link>
+              </div>
+            </div>
+
+            <div className="mt-9 max-w-3xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="text-xs font-bold text-emerald-300">
+                  Civic Operations
+                </span>
+              </div>
+
+              <h1 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-4xl">
+                Every complaint deserves
+                <span className="block text-emerald-400">
+                  a meaningful response.
+                </span>
+              </h1>
+
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400 sm:text-base">
+                Review citizen reports, track their progress and take action
+                on issues that need your attention.
+              </p>
+            </div>
+
+            <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p className="text-xs text-slate-400">Total</p>
+                <p className="mt-1 text-2xl font-black text-white">248</p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p className="text-xs text-slate-400">Pending</p>
+                <p className="mt-1 text-2xl font-black text-orange-400">42</p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p className="text-xs text-slate-400">In Progress</p>
+                <p className="mt-1 text-2xl font-black text-blue-400">31</p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p className="text-xs text-slate-400">Resolved</p>
+                <p className="mt-1 text-2xl font-black text-emerald-400">
+                  175
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative w-full lg:max-w-md">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm">
+                🔍
+              </span>
+
+              <input
+                type="text"
+                placeholder="Search complaint, citizen or location..."
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-emerald-400 focus:bg-white"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {filters.map((filter, index) => (
+                <button
+                  key={filter}
+                  className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+                    index === 0
+                      ? "bg-slate-900 text-white"
+                      : "border border-slate-200 bg-white text-slate-600 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700"
+                  }`}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-5">
+          <div className="mb-4 flex items-end justify-between">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+                Complaint Center
+              </p>
+
+              <h2 className="mt-1 text-2xl font-black text-slate-900">
+                Recent Reports
+              </h2>
+            </div>
+
+            <p className="text-xs font-medium text-slate-400">
+              Showing 6 of 248 complaints
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {complaints.map((complaint) => (
+              <Link
+                key={complaint.id}
+                to={`/officer/complaints/${complaint.id}`}
+                className="group block rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-200 hover:shadow-lg sm:p-5"
+              >
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
+                  <div className="flex min-w-0 flex-1 items-start gap-4">
+                    <CategoryIcon category={complaint.category} />
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-[11px] font-black text-emerald-600">
+                          {complaint.id}
+                        </span>
+
+                        <PriorityBadge priority={complaint.priority} />
+                      </div>
+
+                      <h3 className="mt-1.5 text-sm font-black text-slate-800 sm:text-base">
+                        {complaint.title}
+                      </h3>
+
+                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400">
+                        <span>👤 {complaint.citizen}</span>
+                        <span>📍 {complaint.location}</span>
+                        <span>🕒 {complaint.time}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-4 border-t border-slate-100 pt-3 lg:w-44 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
+                    <div>
+                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                        Status
+                      </p>
+
+                      <StatusBadge status={complaint.status} />
+                    </div>
+
+                    <span className="text-lg text-slate-300 transition group-hover:translate-x-1 group-hover:text-emerald-500">
+                      →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-5 grid gap-4 sm:grid-cols-3">
           <Link
-            to="/officer/dashboard"
-            className="mb-2 block rounded-xl px-4 py-3 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
+            to="/officer/assign-team"
+            className="rounded-2xl bg-emerald-600 p-5 text-white shadow-lg shadow-emerald-600/10 transition hover:-translate-y-1 hover:bg-emerald-700"
           >
-            Dashboard
-          </Link>
-
-          <Link
-            to="/officer/complaints"
-            className="mb-2 block rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700"
-          >
-            Complaints
+            <span className="text-2xl">👥</span>
+            <h3 className="mt-4 text-base font-black">Assign Team</h3>
+            <p className="mt-1 text-xs leading-5 text-emerald-100">
+              Assign pending complaints to field teams.
+            </p>
           </Link>
 
           <Link
             to="/officer/map"
-            className="mb-2 block rounded-xl px-4 py-3 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
+            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
           >
-            Complaint Map
-          </Link>
-
-          <Link
-            to="/officer/analytics"
-            className="mb-2 block rounded-xl px-4 py-3 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
-          >
-            Analytics
-          </Link>
-
-          <Link
-            to="/officer/notifications"
-            className="mb-2 block rounded-xl px-4 py-3 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
-          >
-            Notifications
+            <span className="text-2xl">🗺️</span>
+            <h3 className="mt-4 text-base font-black text-slate-900">
+              View Complaint Map
+            </h3>
+            <p className="mt-1 text-xs leading-5 text-slate-500">
+              See reported issues across your operational area.
+            </p>
           </Link>
 
           <Link
             to="/officer/overdue"
-            className="mb-2 block rounded-xl px-4 py-3 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
+            className="rounded-2xl border border-red-100 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
           >
-            Overdue
-          </Link>
-
-          <Link
-            to="/officer/profile"
-            className="mb-2 block rounded-xl px-4 py-3 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
-          >
-            Profile
-          </Link>
-        </nav>
-      </aside>
-
-      <main className="lg:ml-64">
-        <div className="border-b border-slate-200 bg-white px-5 py-5 md:px-8">
-          <div className="mx-auto max-w-7xl">
-            <p className="text-sm font-semibold text-emerald-600">
-              Officer Panel
+            <span className="text-2xl">⚠️</span>
+            <h3 className="mt-4 text-base font-black text-slate-900">
+              Check Overdue
+            </h3>
+            <p className="mt-1 text-xs leading-5 text-slate-500">
+              12 complaints currently need urgent attention.
             </p>
+          </Link>
+        </section>
 
-            <h2 className="mt-1 text-3xl font-bold text-slate-900">
-              Complaints
-            </h2>
-
-            <p className="mt-2 text-sm text-slate-500">
-              Manage and monitor complaints from your jurisdiction.
-            </p>
-          </div>
+        <div className="mt-6 pb-4 text-center">
+          <p className="text-xs text-slate-400">
+            EcoCitizen • Turning citizen reports into meaningful action
+          </p>
         </div>
-
-        <div className="mx-auto max-w-7xl space-y-6 p-5 md:p-8">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">
-                Total Complaints
-              </p>
-
-              <p className="mt-2 text-3xl font-bold text-slate-900">
-                {complaints.length}
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
-              <p className="text-sm text-amber-700">
-                Pending
-              </p>
-
-              <p className="mt-2 text-3xl font-bold text-amber-800">
-                {
-                  complaints.filter(
-                    (complaint) => complaint.status === "Pending"
-                  ).length
-                }
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
-              <p className="text-sm text-blue-700">
-                In Progress
-              </p>
-
-              <p className="mt-2 text-3xl font-bold text-blue-800">
-                {
-                  complaints.filter(
-                    (complaint) => complaint.status === "In Progress"
-                  ).length
-                }
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
-              <p className="text-sm text-emerald-700">
-                Resolved
-              </p>
-
-              <p className="mt-2 text-3xl font-bold text-emerald-800">
-                {
-                  complaints.filter(
-                    (complaint) => complaint.status === "Resolved"
-                  ).length
-                }
-              </p>
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-slate-900">
-                  All Complaints
-                </h3>
-
-                <p className="mt-1 text-sm text-slate-500">
-                  Search and filter complaints.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <input
-                  type="text"
-                  placeholder="Search complaints..."
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-emerald-500 sm:w-72"
-                />
-
-                <select
-                  value={statusFilter}
-                  onChange={(event) =>
-                    setStatusFilter(event.target.value)
-                  }
-                  className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-emerald-500"
-                >
-                  <option value="All">All Status</option>
-                  <option value="Pending">Pending</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Resolved">Resolved</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[900px]">
-                <thead className="border-b border-slate-200 bg-slate-50">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-500">
-                      Complaint
-                    </th>
-
-                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-500">
-                      Location
-                    </th>
-
-                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-500">
-                      Category
-                    </th>
-
-                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-500">
-                      Priority
-                    </th>
-
-                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-500">
-                      Status
-                    </th>
-
-                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-500">
-                      Date
-                    </th>
-
-                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-500">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody className="divide-y divide-slate-100">
-                  {filteredComplaints.map((complaint) => (
-                    <tr
-                      key={complaint.id}
-                      className="hover:bg-slate-50"
-                    >
-                      <td className="px-6 py-5">
-                        <p className="font-bold text-slate-900">
-                          {complaint.title}
-                        </p>
-
-                        <p className="mt-1 text-xs font-medium text-slate-400">
-                          {complaint.id}
-                        </p>
-                      </td>
-
-                      <td className="px-6 py-5 text-sm text-slate-600">
-                        {complaint.location}
-                      </td>
-
-                      <td className="px-6 py-5 text-sm text-slate-600">
-                        {complaint.category}
-                      </td>
-
-                      <td className="px-6 py-5">
-                        <span
-                          className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                            complaint.priority === "High"
-                              ? "bg-red-100 text-red-700"
-                              : complaint.priority === "Medium"
-                              ? "bg-amber-100 text-amber-700"
-                              : "bg-emerald-100 text-emerald-700"
-                          }`}
-                        >
-                          {complaint.priority}
-                        </span>
-                      </td>
-
-                      <td className="px-6 py-5">
-                        <span
-                          className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                            complaint.status === "Pending"
-                              ? "bg-amber-100 text-amber-700"
-                              : complaint.status === "In Progress"
-                              ? "bg-blue-100 text-blue-700"
-                              : "bg-emerald-100 text-emerald-700"
-                          }`}
-                        >
-                          {complaint.status}
-                        </span>
-                      </td>
-
-                      <td className="px-6 py-5 text-sm text-slate-500">
-                        {complaint.date}
-                      </td>
-
-                      <td className="px-6 py-5">
-                        <Link
-                          to={`/officer/complaints/${complaint.id}`}
-                          className="font-semibold text-emerald-600 hover:text-emerald-700"
-                        >
-                          View Details →
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {filteredComplaints.length === 0 && (
-              <div className="p-10 text-center">
-                <p className="font-semibold text-slate-700">
-                  No complaints found
-                </p>
-
-                <p className="mt-1 text-sm text-slate-500">
-                  Try changing your search or status filter.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      </main>
+      </div>
     </div>
   );
 }
