@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // ============================================================================
 // SVG ICON COMPONENTS (Self-contained, Lucide-style for reliability)
@@ -209,6 +210,7 @@ const INITIAL_COMPLAINTS = [
 // ============================================================================
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [complaints, setComplaints] = useState(INITIAL_COMPLAINTS);
   const [activeTab, setActiveTab] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
@@ -304,133 +306,184 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      
+<div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans overflow-x-hidden">      
       {/* ==================================================================== */}
-      {/* 1. HEADER / NAVBAR                                                   */}
+      {/* 1. CITIZEN DASHBOARD SIDEBAR + TOP BAR                                */}
       {/* ==================================================================== */}
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          
-          {/* Brand Logo & Name */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="p-2 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center justify-center">
-              <EcoLogoIcon className="w-6 h-6 text-emerald-600" />
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex fixed inset-y-0 left-0 z-40 w-64 flex-col bg-white border-r border-slate-200 shadow-sm">
+        <div className="h-20 px-5 flex items-center border-b border-slate-100">
+          <button
+            onClick={() => navigate("/citizen/dashboard")}
+            className="flex items-center gap-3 text-left"
+          >
+            <div className="p-2 bg-emerald-50 rounded-xl border border-emerald-100">
+              <EcoLogoIcon className="w-7 h-7" />
             </div>
             <div>
-              <span className="font-black text-xl text-slate-900 tracking-tight flex items-center">
+              <div className="font-black text-xl text-slate-900 tracking-tight">
                 Eco<span className="text-emerald-600">Citizen</span>
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 hidden sm:inline-block ml-2">
-                Civic Governance
-              </span>
+              </div>
+              <div className="text-[9px] uppercase font-bold tracking-widest text-emerald-700">
+                Citizen Portal
+              </div>
             </div>
+          </button>
+        </div>
+
+        <div className="flex-1 px-3 py-5 overflow-y-auto">
+          <p className="px-3 mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            Main Menu
+          </p>
+
+          <nav className="space-y-1">
+            <button
+              onClick={() => navigate("/citizen/dashboard")}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-sm"
+            >
+              <EcoLogoIcon className="w-5 h-5" />
+              <span>Dashboard</span>
+            </button>
+
+            <button
+              onClick={() => navigate("/citizen/report")}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 font-semibold text-sm transition-colors"
+            >
+              <PlusCircleIcon className="w-5 h-5" />
+              <span>Report Problem</span>
+            </button>
+
+            <button
+              onClick={() => navigate("/citizen/complaints")}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 font-semibold text-sm transition-colors"
+            >
+              <FileTextIcon className="w-5 h-5" />
+              <span>My Complaints</span>
+            </button>
+
+            <button
+              onClick={() => navigate("/explore-map")}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 font-semibold text-sm transition-colors"
+            >
+              <MapIcon className="w-5 h-5" />
+              <span>Explore Map</span>
+            </button>
+
+            <button
+              onClick={() => navigate("/citizen/track")}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 font-semibold text-sm transition-colors"
+            >
+              <SearchIcon className="w-5 h-5" />
+              <span>Track Complaint</span>
+            </button>
+          </nav>
+
+          <div className="my-5 border-t border-slate-100"></div>
+
+          <p className="px-3 mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            Account
+          </p>
+
+          <nav className="space-y-1">
+            <button
+              onClick={() => navigate("/citizen/notifications")}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 font-semibold text-sm transition-colors"
+            >
+              <BellIcon className="w-5 h-5" />
+              <span>Notifications</span>
+              <span className="ml-auto w-2 h-2 rounded-full bg-emerald-500"></span>
+            </button>
+
+            <button
+              onClick={() => navigate("/citizen/profile")}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 font-semibold text-sm transition-colors"
+            >
+              <UserIcon className="w-5 h-5" />
+              <span>Profile</span>
+            </button>
+          </nav>
+        </div>
+
+        <div className="p-3 border-t border-slate-100">
+          <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white font-bold text-sm flex items-center justify-center">
+                AS
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-bold text-slate-900 truncate">Aniket Sharma</p>
+                <p className="text-[10px] text-slate-500">Ward 12 • Citizen</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => navigate("/citizen/profile")}
+              className="mt-3 w-full py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:border-emerald-300 hover:text-emerald-700 transition-colors"
+            >
+              View Profile
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      {/* Top Bar */}
+      <header className="sticky top-0 z-30 md:ml-64 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div className="h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div>
+            <p className="text-[10px] uppercase tracking-widest font-bold text-emerald-600">
+              Citizen Dashboard
+            </p>
+            <h1 className="text-lg sm:text-xl font-black text-slate-900">
+              Overview
+            </h1>
           </div>
 
-          {/* Right Header Navigation & Actions */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
-            
-            {/* Quick Report CTA in Header */}
+          <div className="flex items-center gap-2">
             <button
-              onClick={() => setIsReportModalOpen(true)}
-              className="hidden sm:inline-flex items-center space-x-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs sm:text-sm px-3.5 py-2 rounded-xl transition-all shadow-sm shadow-emerald-600/20 active:scale-95"
+              onClick={() => navigate("/citizen/report")}
+              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-3.5 py-2.5 rounded-xl transition-all shadow-sm"
             >
               <PlusCircleIcon className="w-4 h-4" />
               <span>Report Issue</span>
             </button>
 
-            {/* Notifications Dropdown Container */}
-            <div className="relative">
-              <button
-                onClick={() => {
-                  setShowNotifications(!showNotifications);
-                  setShowProfileMenu(false);
-                }}
-                className="relative p-2 text-slate-600 hover:text-emerald-600 hover:bg-slate-100 rounded-xl transition-colors focus:outline-none"
-                aria-label="Notifications"
-              >
-                <BellIcon className="w-5 h-5" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-emerald-500 rounded-full ring-2 ring-white"></span>
-              </button>
-
-              {/* Notifications Popup */}
-              {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 py-3 z-50 text-xs">
-                  <div className="px-4 py-2 border-b border-slate-100 flex items-center justify-between">
-                    <span className="font-bold text-slate-900 text-sm">Notifications</span>
-                    <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">2 New</span>
-                  </div>
-                  <div className="divide-y divide-slate-50 max-h-64 overflow-y-auto">
-                    <div className="p-3.5 hover:bg-slate-50 transition-colors cursor-pointer">
-                      <p className="font-semibold text-slate-800 mb-0.5">Complaint ECO-2026-8941 Updated</p>
-                      <p className="text-slate-500 text-[11px]">Sanitation Officer assigned to your locality.</p>
-                      <span className="text-[10px] text-emerald-600 font-medium mt-1 inline-block">10 mins ago</span>
-                    </div>
-                    <div className="p-3.5 hover:bg-slate-50 transition-colors cursor-pointer">
-                      <p className="font-semibold text-slate-800 mb-0.5">Issue Resolved ECO-2026-8820</p>
-                      <p className="text-slate-500 text-[11px]">Water leakage at Anand Nagar fixed completely.</p>
-                      <span className="text-[10px] text-slate-400 font-medium mt-1 inline-block">2 hours ago</span>
-                    </div>
-                  </div>
-                  <div className="px-4 pt-2 border-t border-slate-100 text-center">
-                    <button className="text-emerald-600 font-semibold text-[11px] hover:underline">Mark all as read</button>
-                  </div>
-                </div>
-              )}
+            <div className="hidden sm:flex items-center gap-2 pl-2 border-l border-slate-200">
+              <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 font-bold text-xs flex items-center justify-center">
+                AS
+              </div>
+              <div className="text-left">
+                <p className="text-xs font-bold text-slate-800">Aniket Sharma</p>
+                <p className="text-[10px] text-slate-500">Citizen</p>
+              </div>
             </div>
-
-            {/* Profile Menu Dropdown Container */}
-            <div className="relative">
-              <button
-                onClick={() => {
-                  setShowProfileMenu(!showProfileMenu);
-                  setShowNotifications(false);
-                }}
-                className="flex items-center space-x-2 p-1.5 rounded-xl hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all focus:outline-none"
-              >
-                <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shadow-sm">
-                  AS
-                </div>
-                <div className="hidden md:block text-left">
-                  <div className="text-xs font-bold text-slate-800 leading-none">Aniket Sharma</div>
-                  <div className="text-[10px] text-slate-500 mt-0.5 font-medium">Ward 12 • Citizen</div>
-                </div>
-              </button>
-
-              {/* Profile Dropdown */}
-              {showProfileMenu && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
-                  <div className="px-4 py-2 border-b border-slate-100">
-                    <p className="font-bold text-slate-900 text-sm">Aniket Sharma</p>
-                    <p className="text-slate-500 text-[11px] truncate">aniket.s@ecocitizen.in</p>
-                    <div className="mt-1.5 inline-flex items-center space-x-1 text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-semibold border border-emerald-200">
-                      <ShieldCheckIcon className="w-3 h-3 text-emerald-600" />
-                      <span>Verified Resident</span>
-                    </div>
-                  </div>
-                  <div className="py-1">
-                    <button className="w-full text-left px-4 py-2 hover:bg-slate-50 font-medium text-slate-700 flex items-center space-x-2">
-                      <UserIcon className="w-4 h-4 text-slate-400" />
-                      <span>My Citizen Profile</span>
-                    </button>
-                    <button className="w-full text-left px-4 py-2 hover:bg-slate-50 font-medium text-slate-700 flex items-center space-x-2">
-                      <AwardIcon className="w-4 h-4 text-slate-400" />
-                      <span>EcoPoints & Rewards</span>
-                    </button>
-                  </div>
-                  <div className="border-t border-slate-100 pt-1">
-                    <button className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 font-semibold flex items-center space-x-2">
-                      <LogOutIcon className="w-4 h-4" />
-                      <span>Sign Out</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
           </div>
         </div>
       </header>
+
+      {/* Mobile Navigation */}
+      <div className="md:hidden sticky top-16 z-20 bg-white border-b border-slate-200 px-3 py-2 overflow-x-auto">
+        <div className="flex items-center gap-2 min-w-max">
+          <button onClick={() => navigate("/citizen/dashboard")} className="px-3 py-2 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold">
+            Dashboard
+          </button>
+          <button onClick={() => navigate("/citizen/report")} className="px-3 py-2 rounded-lg text-slate-600 text-xs font-semibold">
+            Report
+          </button>
+          <button onClick={() => navigate("/citizen/complaints")} className="px-3 py-2 rounded-lg text-slate-600 text-xs font-semibold">
+            Complaints
+          </button>
+          <button onClick={() => navigate("/explore-map")} className="px-3 py-2 rounded-lg text-slate-600 text-xs font-semibold">
+            Map
+          </button>
+          <button onClick={() => navigate("/citizen/notifications")} className="px-3 py-2 rounded-lg text-slate-600 text-xs font-semibold">
+            Notifications
+          </button>
+          <button onClick={() => navigate("/citizen/profile")} className="px-3 py-2 rounded-lg text-slate-600 text-xs font-semibold">
+            Profile
+          </button>
+        </div>
+      </div>
 
       {/* Toast Alert Notification Banner */}
       {toastMessage && (
@@ -441,8 +494,7 @@ export default function Dashboard() {
       )}
 
       {/* Main Page Body Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
-        
+<main className="flex-1 md:ml-64 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">        
         {/* ==================================================================== */}
         {/* 2. WELCOME SECTION                                                   */}
         {/* ==================================================================== */}
@@ -552,7 +604,7 @@ export default function Dashboard() {
             
             {/* Quick Action 1 */}
             <button
-              onClick={() => setIsReportModalOpen(true)}
+              onClick={() => navigate("/citizen/report")}
               className="group p-4 bg-white border border-slate-200/80 hover:border-emerald-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all text-left flex flex-col justify-between"
             >
               <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors flex items-center justify-center mb-3">
@@ -566,11 +618,7 @@ export default function Dashboard() {
 
             {/* Quick Action 2 */}
             <button
-              onClick={() => {
-                setActiveTab('All');
-                const element = document.getElementById('recent-complaints-section');
-                element?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => navigate("/citizen/complaints")}
               className="group p-4 bg-white border border-slate-200/80 hover:border-emerald-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all text-left flex flex-col justify-between"
             >
               <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 group-hover:bg-teal-600 group-hover:text-white transition-colors flex items-center justify-center mb-3">
@@ -584,10 +632,7 @@ export default function Dashboard() {
 
             {/* Quick Action 3 */}
             <button
-              onClick={() => {
-                const searchInput = document.getElementById('complaint-search-input');
-                if (searchInput) searchInput.focus();
-              }}
+              onClick={() => navigate("/citizen/track")}
               className="group p-4 bg-white border border-slate-200/80 hover:border-emerald-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all text-left flex flex-col justify-between"
             >
               <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors flex items-center justify-center mb-3">
@@ -601,7 +646,7 @@ export default function Dashboard() {
 
             {/* Quick Action 4 */}
             <button
-              onClick={() => triggerToast("Opening Ward 12 Civic Map View (Demo feature)...")}
+              onClick={() => navigate("/explore-map")}
               className="group p-4 bg-white border border-slate-200/80 hover:border-emerald-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all text-left flex flex-col justify-between"
             >
               <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-colors flex items-center justify-center mb-3">
@@ -1115,7 +1160,7 @@ export default function Dashboard() {
       {/* ==================================================================== */}
       {/* 8. FOOTER                                                            */}
       {/* ==================================================================== */}
-      <footer className="mt-auto bg-white border-t border-slate-200/80 py-6 text-center text-xs text-slate-500">
+      <footer className="md:ml-64 mt-auto bg-white border-t border-slate-200/80 py-6 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
             <EcoLogoIcon className="w-4 h-4 text-emerald-600" />
