@@ -6,13 +6,17 @@ export default function Login() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState("citizen");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Backend baad mein connect hoga.
-    // Abhi sirf dashboard par le ja rahe hain.
-    navigate("/citizen/dashboard");
+    if (role === "citizen") {
+  navigate("/citizen/dashboard");
+} else if (role === "officer") {
+  navigate("/officer/dashboard");
+} else if (role === "worker") {
+  navigate("/worker/dashboard");
+}
   };
 
   return (
@@ -98,6 +102,50 @@ export default function Login() {
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Role Selection */}
+<div>
+  <label className="mb-2 block text-sm font-semibold text-slate-700">
+    Login as
+  </label>
+
+  <div className="grid grid-cols-3 gap-2">
+    <button
+      type="button"
+      onClick={() => setRole("citizen")}
+      className={`rounded-xl border px-3 py-3 text-sm font-semibold ${
+        role === "citizen"
+          ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+          : "border-slate-200 text-slate-600"
+      }`}
+    >
+      Citizen
+    </button>
+
+    <button
+      type="button"
+      onClick={() => setRole("officer")}
+      className={`rounded-xl border px-3 py-3 text-sm font-semibold ${
+        role === "officer"
+          ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+          : "border-slate-200 text-slate-600"
+      }`}
+    >
+      Officer
+    </button>
+
+    <button
+      type="button"
+      onClick={() => setRole("worker")}
+      className={`rounded-xl border px-3 py-3 text-sm font-semibold ${
+        role === "worker"
+          ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+          : "border-slate-200 text-slate-600"
+      }`}
+    >
+      Worker
+    </button>
+  </div>
+</div>
 
             {/* Email */}
             <div>
