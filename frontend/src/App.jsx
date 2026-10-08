@@ -1,18 +1,23 @@
-
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
+import CitizenLayout from "./pages/citizen/CitizenLayout";
 
-// Public / Citizen pages
+// Public pages
 import Home from "./pages/public/Home";
 import ExploreIssues from "./pages/public/ExploreIssues";
+import Login from "./pages/public/Login";
+import Register from "./pages/public/Register";
+
+// Citizen pages
 import ReportProblem from "./pages/citizen/ReportProblem";
-import CitizenDashboard from "./pages/citizen/Dashboard";
+import Dashboard from "./pages/citizen/Dashboard";
+import MyComplaints from "./pages/citizen/MyComplaints";
+import ExploreMap from "./pages/citizen/ExploreMap";
+import Notifications from "./pages/citizen/Notifications";
+import Profile from "./pages/citizen/Profile";
+import ComplaintSubmitted from "./pages/citizen/ComplaintSubmitted";
+import TrackComplaint from "./pages/citizen/TrackComplaint";
 
 // Officer pages
 import OfficerDashboard from "./pages/officer/Dashboard";
@@ -21,9 +26,10 @@ import ComplaintDetails from "./pages/officer/ComplaintDetails";
 import AssignTeam from "./pages/officer/AssignTeam";
 import Analytics from "./pages/officer/Analytics";
 import Map from "./pages/officer/Map";
-import Notifications from "./pages/officer/Notifications";
 import OverdueComplaints from "./pages/officer/OverdueComplaints";
-import Profile from "./pages/officer/Profile";
+
+// Worker pages
+import WorkerDashboard from "./pages/worker/Dashboard";
 
 function App() {
   return (
@@ -49,77 +55,136 @@ function App() {
           }
         />
 
-        {/* Citizen Report */}
+        {/* Login */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Register */}
+        <Route path="/register" element={<Register />} />
+
+        {/* ================= CITIZEN ================= */}
+
         <Route
-          path="/citizen/report"
+          path="/citizen/dashboard"
           element={
-            <MainLayout>
-              <ReportProblem />
-            </MainLayout>
+            <CitizenLayout>
+              <Dashboard />
+            </CitizenLayout>
           }
         />
 
-        {/* Citizen Dashboard */}
         <Route
-          path="/citizen/dashboard"
-          element={<CitizenDashboard />}
+          path="/citizen/report"
+          element={
+            <CitizenLayout>
+              <ReportProblem />
+            </CitizenLayout>
+          }
         />
 
-        {/* Officer Dashboard */}
+        <Route
+          path="/citizen/complaints"
+          element={
+            <CitizenLayout>
+              <MyComplaints />
+            </CitizenLayout>
+          }
+        />
+
+        <Route
+          path="/citizen/explore-map"
+          element={
+            <CitizenLayout>
+              <ExploreMap />
+            </CitizenLayout>
+          }
+        />
+
+        <Route
+          path="/citizen/notifications"
+          element={
+            <CitizenLayout>
+              <Notifications />
+            </CitizenLayout>
+          }
+        />
+
+        <Route
+          path="/citizen/profile"
+          element={
+            <CitizenLayout>
+              <Profile />
+            </CitizenLayout>
+          }
+        />
+
+        <Route
+          path="/citizen/complaint-submitted"
+          element={
+            <CitizenLayout>
+              <ComplaintSubmitted />
+            </CitizenLayout>
+          }
+        />
+
+        <Route
+          path="/citizen/track"
+          element={
+            <CitizenLayout>
+              <TrackComplaint />
+            </CitizenLayout>
+          }
+        />
+
+        {/* ================= OFFICER ================= */}
+
         <Route
           path="/officer/dashboard"
           element={<OfficerDashboard />}
         />
 
-        {/* Officer Complaints */}
         <Route
           path="/officer/complaints"
           element={<Complaints />}
         />
 
-        {/* Complaint Details */}
         <Route
           path="/officer/complaints/:id"
           element={<ComplaintDetails />}
         />
 
-        {/* Assign Team */}
         <Route
           path="/officer/assign-team"
           element={<AssignTeam />}
         />
 
-        {/* Analytics */}
         <Route
           path="/officer/analytics"
           element={<Analytics />}
         />
 
-        {/* Map */}
         <Route
           path="/officer/map"
           element={<Map />}
         />
 
-        {/* Notifications */}
         <Route
           path="/officer/notifications"
           element={<Notifications />}
         />
 
-        {/* Overdue Complaints */}
         <Route
           path="/officer/overdue"
           element={<OverdueComplaints />}
         />
 
-        {/* Officer Profile */}
+        {/* ================= WORKER ================= */}
+
         <Route
-          path="/officer/profile"
-          element={<Profile />}
+          path="/worker/dashboard"
+          element={<WorkerDashboard />}
         />
 
-        {/* Unknown route */}
+        {/* Unknown URL */}
         <Route
           path="*"
           element={<Navigate to="/" replace />}
