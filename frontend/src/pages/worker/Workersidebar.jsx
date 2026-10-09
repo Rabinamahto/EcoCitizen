@@ -1,96 +1,118 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
+import {
+  LayoutDashboard,
+  ClipboardList,
+  MapPin,
+  Activity,
+  CheckCircle,
+  Bell,
+  User,
+  LogOut,
+  Leaf,
+} from "lucide-react";
+
 import "./WorkerSidebar.css";
 
-function WorkerSidebar() {
+const Workersidebar = () => {
+  const menu = [
+    {
+      name: "Dashboard",
+      path: "/worker/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      name: "My Tasks",
+      path: "/worker/tasks",
+      icon: ClipboardList,
+    },
+    {
+      name: "Task Location",
+      path: "/worker/location",
+      icon: MapPin,
+    },
+    {
+      name: "Work Progress",
+      path: "/worker/progress",
+      icon: Activity,
+    },
+    {
+      name: "Completed Tasks",
+      path: "/worker/completed",
+      icon: CheckCircle,
+    },
+    {
+      name: "Notifications",
+      path: "/worker/notifications",
+      icon: Bell,
+    },
+    {
+      name: "Profile",
+      path: "/worker/profile",
+      icon: User,
+    },
+  ];
+
   return (
     <aside className="worker-sidebar">
 
-      {/* Worker Profile */}
-      <div className="worker-sidebar-header">
-        <div className="worker-avatar">
-          S
+      {/* Logo */}
+      <div className="worker-logo">
+        <div className="logo-box">
+          <Leaf size={22} />
         </div>
 
         <div>
-          <h3>Shivani</h3>
-          <span>Field Worker</span>
+          <h2>EcoCitizen</h2>
+          <span>Worker Portal</span>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="worker-menu">
+      <nav className="worker-navigation">
 
-        <NavLink
-          to="/worker/dashboard"
-          className={({ isActive }) =>
-            isActive
-              ? "worker-menu-item active"
-              : "worker-menu-item"
-          }
-        >
-          <span>📊</span>
-          <span>Dashboard</span>
-        </NavLink>
+        <p className="navigation-title">WORKER MENU</p>
 
-        <NavLink
-          to="/worker/tasks"
-          className={({ isActive }) =>
-            isActive
-              ? "worker-menu-item active"
-              : "worker-menu-item"
-          }
-        >
-          <span>📋</span>
-          <span>My Tasks</span>
-        </NavLink>
+        {menu.map((item) => {
+          const Icon = item.icon;
 
-        <NavLink
-          to="/worker/completed-tasks"
-          className={({ isActive }) =>
-            isActive
-              ? "worker-menu-item active"
-              : "worker-menu-item"
-          }
-        >
-          <span>✅</span>
-          <span>Completed Tasks</span>
-        </NavLink>
-
-        <NavLink
-          to="/worker/notifications"
-          className={({ isActive }) =>
-            isActive
-              ? "worker-menu-item active"
-              : "worker-menu-item"
-          }
-        >
-          <span>🔔</span>
-          <span>Notifications</span>
-        </NavLink>
-
-        <NavLink
-          to="/worker/profile"
-          className={({ isActive }) =>
-            isActive
-              ? "worker-menu-item active"
-              : "worker-menu-item"
-          }
-        >
-          <span>👤</span>
-          <span>Profile</span>
-        </NavLink>
+          return (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              className={({ isActive }) =>
+                `worker-link ${isActive ? "active" : ""}`
+              }
+            >
+              <Icon size={19} />
+              <span>{item.name}</span>
+            </NavLink>
+          );
+        })}
 
       </nav>
 
-      {/* Logout */}
+      {/* Bottom */}
       <div className="worker-sidebar-bottom">
+
+        <div className="worker-help">
+          <div className="help-circle">?</div>
+
+          <div>
+            <strong>Need Help?</strong>
+            <small>Contact support</small>
+          </div>
+        </div>
+
         <button className="worker-logout">
-          🚪 Logout
+          <LogOut size={18} />
+          Logout
         </button>
+
       </div>
 
     </aside>
   );
-}
+};
 
-export default WorkerSidebar;
+export default Workersidebar;
